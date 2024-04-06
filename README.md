@@ -1,6 +1,7 @@
 <div align="center">
-<!-- <img width="30%" src="https://user-images.githubusercontent.com/72341453/134747028-7e2d90cc-a92f-4f66-815e-54a0d50cca54.PNG"> -->
-
+### App Preview :
+<img width="100%" src="https://github.com/KNR1997/E-commerce_Django_React/blob/master/frontend/asserts/Home.png">
+  
 # Ecommerce Application
 </div>
 
@@ -60,6 +61,3 @@ npm start (on_frontend)
 > ⚠ Then, the development server will be started at http://127.0.0.1:8000/
 
 #
-
-### App Preview :
-<img width="100%" src="https://github.com/ShallWe-CS/Task-Manager-Application/blob/master/client/src/app_review/home.png">
