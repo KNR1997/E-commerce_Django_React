@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logoLight } from "../../assets/images";
+import AuthContext from '../../context/AuthContext'
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   // ============= Initial State Start here =============
@@ -14,6 +16,9 @@ const SignIn = () => {
 
   // ============= Error Msg End here ===================
   const [successMsg, setSuccessMsg] = useState("");
+  const { loginUser, user } = useContext(AuthContext);
+    const navigate = useNavigate();
+
   // ============= Event Handler Start here =============
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -23,8 +28,9 @@ const SignIn = () => {
     setPassword(e.target.value);
     setErrPassword("");
   };
+
   // ============= Event Handler End here ===============
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
 
     if (!email) {
@@ -36,9 +42,16 @@ const SignIn = () => {
     }
     // ============== Getting the value ==============
     if (email && password) {
-      setSuccessMsg(
-        `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
-      );
+      const data = {
+        username: email,
+        password: password,
+      };
+      loginUser(data);
+      navigate('/');
+
+      // setSuccessMsg(
+      //   `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
+      // );
       setEmail("");
       setPassword("");
     }
@@ -138,14 +151,14 @@ const SignIn = () => {
                 {/* Email */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
-                    Work Email
+                    UserName
                   </p>
                   <input
                     onChange={handleEmail}
                     value={email}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="email"
-                    placeholder="john@workemail.com"
+                    placeholder="your username"
                   />
                   {errEmail && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
@@ -165,7 +178,7 @@ const SignIn = () => {
                     value={password}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="password"
-                    placeholder="Create password"
+                    placeholder="your password"
                   />
                   {errPassword && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">

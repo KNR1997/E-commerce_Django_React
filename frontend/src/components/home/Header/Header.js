@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import { HiMenuAlt2 } from "react-icons/hi";
@@ -7,6 +7,7 @@ import { logo, logoLight } from "../../../assets/images";
 import Image from "../../designLayouts/Image";
 import { navBarList } from "../../../constants";
 import Flex from "../../designLayouts/Flex";
+import AuthContext from "../../../context/AuthContext";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(true);
@@ -14,6 +15,8 @@ const Header = () => {
   const [category, setCategory] = useState(false);
   const [brand, setBrand] = useState(false);
   const location = useLocation();
+  let { user, logoutUser } = useContext(AuthContext);
+
   useEffect(() => {
     let ResponsiveMenu = () => {
       if (window.innerWidth < 667) {
@@ -54,9 +57,20 @@ const Header = () => {
                       <li>{title}</li>
                     </NavLink>
                   ))}
-                  <button className="bg-primeColor text-white text-lg font-bodyFont w-[100px] h-[40px] hover:bg-black duration-300 font-bold">
-                    SignIn
-                  </button>
+                  {user ? (
+                    <button
+                      className="bg-primeColor text-white text-lg font-bodyFont w-[100px] h-[40px] hover:bg-black duration-300 font-bold"
+                      onClick={logoutUser}
+                    >
+                      LogOut
+                    </button>
+                  ) : (
+                    <NavLink to="/signin">
+                      <button className="bg-primeColor text-white text-lg font-bodyFont w-[100px] h-[40px] hover:bg-black duration-300 font-bold">
+                        SignIn
+                      </button>
+                    </NavLink>
+                  )}
                 </>
               </motion.ul>
             )}
