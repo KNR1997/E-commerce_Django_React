@@ -10,8 +10,11 @@ import {
 } from "../../../assets/images/index";
 import SampleNextArrow from "./SampleNextArrow";
 import SamplePrevArrow from "./SamplePrevArrow";
+import { useGetProductsQuery } from "../../../redux/ProductsQueries";
 
 const NewArrivals = () => {
+  const { data: products, isLoading } = useGetProductsQuery();
+
   const settings = {
     infinite: true,
     speed: 500,
@@ -50,7 +53,20 @@ const NewArrivals = () => {
     <div className="w-full pb-16">
       <Heading heading="New Arrivals" />
       <Slider {...settings}>
-        <div className="px-2">
+        {products?.map((product) => (
+          <div key={product.id} className="px-2">
+            <Product
+              _id={product.id}
+              img={newArrOne} // Assuming these properties are available in your product object
+              productName={product.name}
+              price={product.price}
+              color={product.color}
+              badge={product.badge}
+              des={product.description}
+            />
+          </div>
+        ))}
+        {/* <div className="px-2">
           <Product
             _id="100001"
             img={newArrOne}
@@ -104,7 +120,7 @@ const NewArrivals = () => {
             badge={false}
             des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
           />
-        </div>
+        </div> */}
       </Slider>
     </div>
   );
