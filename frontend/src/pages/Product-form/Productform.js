@@ -1,175 +1,70 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logoLight } from "../../assets/images";
-import AuthContext from "../../context/AuthContext";
+import { useAddProductMutation } from "../../redux/ProductsQueries";
 import { useNavigate } from 'react-router-dom';
 
-const SignUp = () => {
-  const { registerUser, user } = useContext(AuthContext);
-  const navigate = useNavigate();
-
+const Productform = (props) => {
   // ============= Initial State Start here =============
-  const [clientName, setClientName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [zip, setZip] = useState("");
-  const [checked, setChecked] = useState(false);
+  const [productName, setProductName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [discount, setDiscount] = useState("");
+  const [quantity, setQantity] = useState("");
+
   // ============= Initial State End here ===============
   // ============= Error Msg Start here =================
-  const [errClientName, setErrClientName] = useState("");
-  const [errEmail, setErrEmail] = useState("");
-  const [errPhone, setErrPhone] = useState("");
-  const [errPassword, setErrPassword] = useState("");
-  const [errAddress, setErrAddress] = useState("");
-  const [errCity, setErrCity] = useState("");
-  const [errCountry, setErrCountry] = useState("");
-  const [errZip, setErrZip] = useState("");
+  const [errProductName, setErrProductName] = useState("");
+  const [errDescription, setErrDescription] = useState("");
+  const [errPrice, setErrPrice] = useState("");
+  const [errDiscount, setErrDiscount] = useState("");
+  const [errQuantity, setErrQuantity] = useState("");
+
   // ============= Error Msg End here ===================
   const [successMsg, setSuccessMsg] = useState("");
-  // ============= Event Handler Start here =============
+
+  const [addProduct] = useAddProductMutation()
+  const navigate = useNavigate();
+
   const handleName = (e) => {
-    setClientName(e.target.value);
-    setErrClientName("");
+    setProductName(e.target.value);
+    setErrProductName("");
   };
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-    setErrEmail("");
-  };
-  const handlePhone = (e) => {
-    setPhone(e.target.value);
-    setErrPhone("");
-  };
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-    setErrPassword("");
-  };
-  const handleAddress = (e) => {
-    setAddress(e.target.value);
-    setErrAddress("");
-  };
-  const handleCity = (e) => {
-    setCity(e.target.value);
-    setErrCity("");
-  };
-  const handleCountry = (e) => {
-    setCountry(e.target.value);
-    setErrCountry("");
-  };
-  const handleZip = (e) => {
-    setZip(e.target.value);
-    setErrZip("");
-  };
-  // ============= Event Handler End here ===============
-  // ================= Email Validation start here =============
-  const EmailValidation = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
-  };
-  // ================= Email Validation End here ===============
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    if (checked) {
-      if (!clientName) {
-        setErrClientName("Enter your name");
-      }
-      if (!email) {
-        setErrEmail("Enter your email");
-      } else {
-        if (!EmailValidation(email)) {
-          setErrEmail("Enter a Valid email");
-        }
-      }
-      if (!phone) {
-        setErrPhone("Enter your phone number");
-      }
-      if (!password) {
-        setErrPassword("Create a password");
-      } else {
-        if (password.length < 6) {
-          setErrPassword("Passwords must be at least 6 characters");
-        }
-      }
-      if (!address) {
-        setErrAddress("Enter your address");
-      }
-      if (!city) {
-        setErrCity("Enter your city name");
-      }
-      if (!country) {
-        setErrCountry("Enter the country you are residing");
-      }
-      if (!zip) {
-        setErrZip("Enter the zip code of your area");
-      }
-      // ============== Getting the value ==============
-      if (
-        clientName &&
-        email &&
-        EmailValidation(email) &&
-        password &&
-        password.length >= 6 &&
-        address &&
-        city &&
-        country &&
-        zip
-      ) {
-        // setSuccessMsg(
-        //   `Hello dear ${clientName}, Welcome you to OREBI Admin panel. We received your Sign up request. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
-        // );
-        // setClientName("");
-        // setEmail("");
-        // setPhone("");
-        // setPassword("");
-        // setAddress("");
-        // setCity("");
-        // setCountry("");
-        // setZip("");
-        const data = {
-          username: clientName,
-          email: email,
-          password: password,
-        };
-        registerUser(data);
-        navigate("/");
-      }
+  const handleDescription = (e) => {
+    setDescription(e.target.value);
+    setErrDescription("");
+  };
+
+  const handlePrice = (e) => {
+    setPrice(e.target.value);
+    setErrPrice("");
+  };
+
+  const handleDiscount = (e) => {
+    setDiscount(e.target.value);
+    setErrDiscount("");
+  };
+
+  const handleQuantity = (e) => {
+    setQantity(e.target.value);
+    setErrQuantity("");
+  };
+
+  const handleCreateProduct = () => {
+    console.log('create product')
+    let data = {
+        name: productName,
+        description: description,
+        price: price,
+        discount: discount,
+        quantity: quantity,
     }
-  };
+    addProduct(data);
+    navigate('/');
+  }
 
-  // ============= Event Handler End here ===============
-  const handleCreateAccount = async (e) => {
-    e.preventDefault();
-
-    if (!email) {
-      setErrEmail("Enter your email");
-    }
-
-    if (!password) {
-      setErrPassword("Create a password");
-    }
-    // ============== Getting the value ==============
-    if (email && password) {
-      const data = {
-        username: clientName,
-        email: email,
-        password: password,
-      };
-      registerUser(data);
-      navigate("/");
-
-      // setSuccessMsg(
-      //   `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
-      // );
-      setEmail("");
-      setPassword("");
-    }
-  };
   return (
     <div className="w-full h-screen flex items-center justify-start">
       <div className="w-1/2 hidden lgl:inline-flex h-full text-white">
@@ -257,97 +152,120 @@ const SignUp = () => {
           <form className="w-full lgl:w-[500px] h-screen flex items-center justify-center">
             <div className="px-6 py-4 w-full h-[96%] flex flex-col justify-start overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
               <h1 className="font-titleFont underline underline-offset-4 decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4">
-                Create your account
+                Create your product
               </h1>
               <div className="flex flex-col gap-3">
-                {/* client name */}
+                {/* Product name */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
-                    User Name
+                    Product Name
                   </p>
                   <input
                     onChange={handleName}
-                    value={clientName}
+                    value={productName}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="text"
-                    placeholder="eg. John Doe"
+                    placeholder="eg. Iphone 15"
                   />
-                  {errClientName && (
+                  {errProductName && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
                       <span className="font-bold italic mr-1">!</span>
-                      {errClientName}
+                      {errProductName}
                     </p>
                   )}
                 </div>
+
                 {/* Email */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
-                    Work Email
+                    Description
                   </p>
                   <input
-                    onChange={handleEmail}
-                    value={email}
+                    onChange={handleDescription}
+                    value={description}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="email"
-                    placeholder="john@workemail.com"
+                    placeholder=""
                   />
-                  {errEmail && (
+                  {errDescription && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
                       <span className="font-bold italic mr-1">!</span>
-                      {errEmail}
+                      {errDescription}
                     </p>
                   )}
                 </div>
-                {/* Password */}
+
+                {/* Phone Number */}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
-                    Password
+                    Price
                   </p>
                   <input
-                    onChange={handlePassword}
-                    value={password}
+                    onChange={handlePrice}
+                    value={price}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
-                    type="password"
-                    placeholder="Create password"
+                    type="text"
+                    placeholder=""
                   />
-                  {errPassword && (
+                  {errPrice && (
                     <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
                       <span className="font-bold italic mr-1">!</span>
-                      {errPassword}
+                      {errPrice}
                     </p>
                   )}
                 </div>
-                {/* Checkbox */}
-                {/* <div className="flex items-start mdl:items-center gap-2">
-                  <input
-                    onChange={() => setChecked(!checked)}
-                    className="w-4 h-4 mt-1 mdl:mt-0 cursor-pointer"
-                    type="checkbox"
-                  />
-                  <p className="text-sm text-primeColor">
-                    I agree to the OREBI{" "}
-                    <span className="text-blue-500">Terms of Service </span>and{" "}
-                    <span className="text-blue-500">Privacy Policy</span>.
+
+                {/* Phone Number */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    Discount
                   </p>
-                </div> */}
+                  <input
+                    onChange={handleDiscount}
+                    value={discount}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="text"
+                    placeholder=""
+                  />
+                  {errDiscount && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errDiscount}
+                    </p>
+                  )}
+                </div>
+
+                
+                {/* Quantity */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    Quantity
+                  </p>
+                  <input
+                    onChange={handleQuantity}
+                    value={quantity}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="text"
+                    placeholder=""
+                  />
+                  {errDiscount && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errDiscount}
+                    </p>
+                  )}
+                </div>
+
                 <button
-                  onClick={handleCreateAccount}
+                  onClick={handleCreateProduct}
                   className={`${
                     true
                       ? "bg-primeColor hover:bg-black hover:text-white cursor-pointer"
                       : "bg-gray-500 hover:bg-gray-500 hover:text-gray-200 cursor-none"
                   } w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300`}
                 >
-                  Create Account
+                  Create Product
                 </button>
-                <p className="text-sm text-center font-titleFont font-medium">
-                  Don't have an Account?{" "}
-                  <Link to="/signin">
-                    <span className="hover:text-blue-600 duration-300">
-                      Sign in
-                    </span>
-                  </Link>
-                </p>
               </div>
             </div>
           </form>
@@ -357,4 +275,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Productform;

@@ -7,6 +7,7 @@ class Product(models.Model):
     description = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     discount = models.DecimalField(max_digits=5, decimal_places=2)
+    quantity = models.PositiveIntegerField()
     created_by = models.ForeignKey(User, related_name='products_created', on_delete=models.CASCADE)
     updated_by = models.ForeignKey(User, related_name='products_updated', on_delete=models.CASCADE, null=True, blank=True)
 

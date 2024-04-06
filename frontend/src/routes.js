@@ -12,6 +12,9 @@ import Offer from "./pages/Offer/Offer";
 import Payment from "./pages/payment/Payment";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Shop from "./pages/Shop/Shop";
+import ProductForm from "./pages/Product-form/Productform";
+import MyProducts from "./pages/MyProducts/MyProducts";
+import EditProductform from "./pages/Product-form/EditProductForm";
 
 const routes = (
   <Route>
@@ -30,6 +33,10 @@ const routes = (
     </Route>
     <Route path="/signup" element={<SignUp />} />
     <Route path="/signin" element={<SignIn />} />
+    <Route path="/create-product" element={<ProductForm />} />
+    <Route path="/my-products" element={<MyProducts />} />
+    <Route path="/edit-product" element={<EditProductform />} />
+
   </Route>
 );
 

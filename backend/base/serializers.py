@@ -20,7 +20,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description', 'price', 'discount']
+        fields = ['id', 'name', 'description', 'price', 'quantity', 'discount', 'created_by']
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:

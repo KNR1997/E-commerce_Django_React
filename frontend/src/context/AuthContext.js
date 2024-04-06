@@ -10,7 +10,19 @@ export default AuthContext;
 export const AuthProvider = ({children}) => {
     let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
-    let [loading, setLoading] = useState(true)
+    let [loading, setLoading] = useState(true);
+
+    let registerUser = async (formData)=> {
+        const response = await postDataToApi("api/register/", formData);
+        let data = response;
+        
+        if(response){
+            toast.success("Account Created!");
+        }else{
+            alert('Something went wrong!')
+            toast.success("Error Logged In!");
+        }
+    }
 
     let loginUser = async (formData)=> {
         const response = await postDataToApi("api/token/", formData);
@@ -65,6 +77,7 @@ export const AuthProvider = ({children}) => {
         authTokens:authTokens,
         loginUser:loginUser,
         logoutUser:logoutUser,
+        registerUser: registerUser,
     }
 
     useEffect(()=> {

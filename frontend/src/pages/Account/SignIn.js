@@ -17,7 +17,7 @@ const SignIn = () => {
   // ============= Error Msg End here ===================
   const [successMsg, setSuccessMsg] = useState("");
   const { loginUser, user } = useContext(AuthContext);
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // ============= Event Handler Start here =============
   const handleEmail = (e) => {
@@ -47,7 +47,7 @@ const SignIn = () => {
         password: password,
       };
       loginUser(data);
-      navigate('/');
+      navigate('/signin');
 
       // setSuccessMsg(
       //   `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`

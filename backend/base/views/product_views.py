@@ -14,6 +14,16 @@ def get_all(request):
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_my_products(request):
+    # Get products created by the authenticated user
+    products = Product.objects.filter(created_by=request.user)
+    
+    # Serialize the products
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_product(request):

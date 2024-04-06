@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { toast } from "react-toastify";
 
 // Function to get access token from local storage
 const getAccessToken = () => {
@@ -18,17 +19,24 @@ export const useApiProductsSlice = createApi({
     getProducts: builder.query({
       query: () => ({
         url: "/api/products",
-        headers: {
-          Authorization: `Bearer ${getAccessToken()}`,
-        },
       }),
       // transformResponse: (res) => res.sort((a, b) => b.id - a.id),
       providesTags: ["Products"],
     }),
 
+    getMyProducts: builder.query({
+      query: () => ({
+        url: "/api/products/get_my_products/",
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+        },
+      }),
+      providesTags: ["Products"],
+    }),
+
     addProduct: builder.mutation({
       query: (product) => ({
-        url: "/api/products",
+        url: "/api/products/create/",
         method: "POST",
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
@@ -40,7 +48,7 @@ export const useApiProductsSlice = createApi({
 
     updateProduct: builder.mutation({
       query: (product) => ({
-        url: `/api/products/${product.id}`,
+        url: `/api/products/${product.id}/update/`,
         method: "PUT",
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
@@ -52,7 +60,7 @@ export const useApiProductsSlice = createApi({
 
     deleteProduct: builder.mutation({
       query: (id) => ({
-        url: `/api/product/${id}`,
+        url: `/api/products/${id}/delete/`,
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
@@ -66,6 +74,7 @@ export const useApiProductsSlice = createApi({
 
 export const {
   useGetProductsQuery,
+  useGetMyProductsQuery,
   useAddProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
