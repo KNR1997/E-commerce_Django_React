@@ -6,12 +6,15 @@ import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
 import { resetCart } from "../../redux/orebiSlice";
 import { emptyCart } from "../../assets/images/index";
 import ItemCard from "./ItemCard";
+import { useAddOrderMutation } from "../../redux/OrdersQueries";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.orebiReducer.products);
   const [totalAmt, setTotalAmt] = useState("");
   const [shippingCharge, setShippingCharge] = useState("");
+
+  const [addOrder] = useAddOrderMutation();
 
   useEffect(() => {
     let price = 0;
@@ -32,8 +35,11 @@ const Cart = () => {
     }
   }, [totalAmt]);
 
+  console.log('products: ',products)
+
   const placeOrder = () => {
-    console.log("place order");
+    addOrder(products);
+    dispatch(resetCart())
   };
 
   return (

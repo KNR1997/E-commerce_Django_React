@@ -47,7 +47,7 @@ const SignIn = () => {
         password: password,
       };
       loginUser(data);
-      navigate('/signin');
+      navigate('/');
 
       // setSuccessMsg(
       //   `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`

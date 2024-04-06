@@ -13,11 +13,13 @@ export const orebiSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
+      console.log('payload: ',action.payload)
       const item = state.products.find(
         (item) => item._id === action.payload._id
       );
       if (item) {
         item.quantity += action.payload.quantity;
+        item.total_price += action.payload.total_price;
       } else {
         state.products.push(action.payload);
       }
@@ -30,6 +32,7 @@ export const orebiSlice = createSlice({
       );
       if (item) {
         item.quantity++;
+        item.total_price += item.price;
         // Dispatch a success toast
       }
     },

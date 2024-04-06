@@ -15,6 +15,8 @@ import Shop from "./pages/Shop/Shop";
 import ProductForm from "./pages/Product-form/Productform";
 import MyProducts from "./pages/MyProducts/MyProducts";
 import EditProductform from "./pages/Product-form/EditProductForm";
+import MyOrders from "./pages/MyOrders/MyOrders";
+import EditOrderform from "./pages/Order-form/EditOrderForm";
 
 const routes = (
   <Route>
@@ -36,7 +38,8 @@ const routes = (
     <Route path="/create-product" element={<ProductForm />} />
     <Route path="/my-products" element={<MyProducts />} />
     <Route path="/edit-product" element={<EditProductform />} />
-
+    <Route path="/my-orders" element={<MyOrders />} />
+    <Route path="/edit-order" element={<EditOrderform />} />
   </Route>
 );
 

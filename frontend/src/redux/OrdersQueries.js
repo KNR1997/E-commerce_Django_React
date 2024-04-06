@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { toast } from "react-toastify";
 
 // Function to get access token from local storage
 const getAccessToken = () => {
@@ -11,71 +10,70 @@ const getAccessToken = () => {
     return null;
 };
 
-export const useApiProductsSlice = createApi({
-  reducerPath: "productReducer",
+export const useApiOrdersSlice = createApi({
+  reducerPath: "orderReducer",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_DEV_URL }),
-  tagTypes: ["Products"],
+  tagTypes: ["Orders"],
   endpoints: (builder) => ({
-    getProducts: builder.query({
+    getOrders: builder.query({
       query: () => ({
-        url: "/api/products",
+        url: "/api/orders",
       }),
       // transformResponse: (res) => res.sort((a, b) => b.id - a.id),
-      providesTags: ["Products"],
+      providesTags: ["Orders"],
     }),
 
-    getMyProducts: builder.query({
+    getMyOrders: builder.query({
       query: () => ({
-        url: "/api/products/get_my_products/",
+        url: "/api/orders/get_my_orders/",
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
         },
       }),
-      providesTags: ["Products"],
+      providesTags: ["Orders"],
     }),
 
-    addProduct: builder.mutation({
-      query: (product) => ({
-        url: "/api/products/create/",
+    addOrder: builder.mutation({
+      query: (order) => ({
+        url: "/api/orders/create/",
         method: "POST",
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
         },
-        body: product,
+        body: order,
       }),
-      invalidatesTags: ["Products"],
+      invalidatesTags: ["Orders"],
     }),
 
-    updateProduct: builder.mutation({
-      query: (product) => ({
-        url: `/api/products/${product.id}/update/`,
+    updateOrder: builder.mutation({
+      query: (order) => ({
+        url: `/api/orders/${order.id}/update/`,
         method: "PUT",
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
         },
-        body: product,
+        body: order,
       }),
-      invalidatesTags: ["Products"],
+      invalidatesTags: ["Orders"],
     }),
 
-    deleteProduct: builder.mutation({
+    deleteOrder: builder.mutation({
       query: (id) => ({
-        url: `/api/products/${id}/delete/`,
+        url: `/api/orders/${id}/delete/`,
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
         },
         body: id,
       }),
-      invalidatesTags: ["Products"],
+      invalidatesTags: ["Orders"],
     }),
   }),
 });
 
 export const {
-  useGetProductsQuery,
-  useGetMyProductsQuery,
-  useAddProductMutation,
-  useUpdateProductMutation,
-  useDeleteProductMutation,
-} = useApiProductsSlice;
+  useGetMyOrdersQuery,
+  useAddOrderMutation,
+  useUpdateOrderMutation,
+  useDeleteOrderMutation,
+} = useApiOrdersSlice;

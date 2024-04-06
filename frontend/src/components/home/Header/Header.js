@@ -73,6 +73,13 @@ const Header = () => {
                   >
                     <li>My Products</li>
                   </NavLink>
+                  <NavLink
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#262626] md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0"
+                    to='my-orders'
+                    state={{ data: location.pathname.split("/")[1] }}
+                  >
+                    <li>My Orders</li>
+                  </NavLink>
                   {user ? (
                     <button
                       className="bg-primeColor text-white text-lg font-bodyFont w-[100px] h-[40px] hover:bg-black duration-300 font-bold"

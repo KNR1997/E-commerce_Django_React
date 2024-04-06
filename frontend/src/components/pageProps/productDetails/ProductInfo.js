@@ -24,6 +24,8 @@ const ProductInfo = ({ productInfo }) => {
     return <>{description}</>;
   };
   const dispatch = useDispatch();
+
+  console.log('productInfo: ', productInfo)
   return (
     <div className="flex flex-col gap-5">
       <h2 className="text-4xl font-semibold">{productInfo.productName}</h2>
@@ -95,13 +97,17 @@ const ProductInfo = ({ productInfo }) => {
         onClick={() =>
           dispatch(
             addToCart({
-              _id: productInfo.id,
+              _id: productInfo._id,
+              status: 'pending',
               name: productInfo.productName,
               quantity: 1,
               image: productInfo.img,
               badge: productInfo.badge,
-              price: productInfo.price,
+              price: parseInt(productInfo.price),
               colors: productInfo.color,
+              shipping_address: 'SL',
+              payment_method: 'CASH',
+              total_price: parseInt(productInfo.price),            
             })
           )
         }

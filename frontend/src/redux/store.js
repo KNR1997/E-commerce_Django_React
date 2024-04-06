@@ -13,6 +13,7 @@ import storage from "redux-persist/lib/storage";
 import orebiReducer from "./orebiSlice";
 import { useApiProductsSlice } from "./ProductsQueries";
 import { productSlice } from "./productSlice";
+import { useApiOrdersSlice } from "./OrdersQueries";
 
 const persistConfig = {
   key: "root",
@@ -27,13 +28,17 @@ export const store = configureStore({
     orebiReducer: persistedReducer,
     product: productSlice.reducer,
     [useApiProductsSlice.reducerPath]: useApiProductsSlice.reducer,
+    [useApiOrdersSlice.reducerPath]: useApiOrdersSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(useApiProductsSlice.middleware),
+    }).concat(
+      useApiProductsSlice.middleware, 
+      useApiOrdersSlice.middleware
+    ),
 });
 
 export let persistor = persistStore(store);

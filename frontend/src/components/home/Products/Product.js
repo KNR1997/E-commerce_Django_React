@@ -55,12 +55,16 @@ const Product = (props) => {
                 dispatch(
                   addToCart({
                     _id: props._id,
+                    status: 'pending',
                     name: props.productName,
                     quantity: 1,
                     image: props.img,
                     badge: props.badge,
-                    price: props.price,
+                    price: parseInt(props.price),
                     colors: props.color,
+                    shipping_address: 'SL',
+                    payment_method: 'CASH',
+                    total_price: parseInt(props.price),
                   })
                 )
               }

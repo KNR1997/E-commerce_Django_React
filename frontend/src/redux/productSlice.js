@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   EditProduct: {},
+  EditOrder: {},
 };
 
 export const productSlice = createSlice({
@@ -11,8 +12,11 @@ export const productSlice = createSlice({
     setProductToEdit: (state, action) => {
       state.EditProduct = action.payload;
     },
+    setOrderToEdit: (state, action) => {
+      state.EditOrder = action.payload;
+    },
   },
 });
 
-export const { setProductToEdit } = productSlice.actions;
+export const { setProductToEdit, setOrderToEdit } = productSlice.actions;
 export default productSlice.reducer;
