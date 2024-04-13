@@ -5,7 +5,8 @@ from ..serializers import ProductSerializer, OrderSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.core.paginator import Paginator
-from django.http import QueryDict
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
 @api_view(['GET'])
 def get_products(request):
@@ -63,3 +64,29 @@ def get_products(request):
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+def get_product_by_slug(request, slug):
+    try:
+        # Retrieve the product based on the provided slug
+        product = get_object_or_404(Product, slug=slug)
+        
+        # Retrieve related products
+        related_products = Product.objects.filter(type__slug=product.type.slug)[:20]
+
+        # Serialize the product and related products
+        product_serializer = ProductSerializer(product)
+        related_products_serializer = ProductSerializer(related_products, many=True)
+
+        # Construct the response data
+        response_data = {
+            'product': product_serializer.data,
+            'related_products': related_products_serializer.data
+        }
+
+        return JsonResponse(response_data)
+
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Product not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

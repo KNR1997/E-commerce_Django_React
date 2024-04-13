@@ -1,5 +1,5 @@
 from django.urls import path
-from .views.product_views import get_products
+from .views.product_views import get_products, get_product_by_slug
 from .views.order_views import get_my_orders, create_order, update_order, delete_order
 from .views.auth_views import MyTokenObtainPairView, UserRegistrationView
 from rest_framework_simplejwt.views import ( TokenRefreshView)
@@ -10,7 +10,8 @@ urlpatterns = [
     path('token/refresh/',  TokenRefreshView.as_view(), name='token_refresh'),
     path('register/',   UserRegistrationView.as_view()),
     
-    path('products', get_products, name="get_products"),
+    path('products_v2', get_products, name="get_products"),
+    path('products_v2/<slug:slug>', get_product_by_slug, name="get_product_by_slug"),
 
     path('orders/get_my_orders/', get_my_orders, name="get_my_orders"),
     path('orders/create/', create_order, name="create_order"),

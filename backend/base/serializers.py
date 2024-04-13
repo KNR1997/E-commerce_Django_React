@@ -20,7 +20,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description', 'price', 'quantity', 'status', 'type']  # Example fields, adjust as neede
+        fields = ['id', 'name', 'slug', 'description', 'price', 'quantity', 'status', 'type', 'image', 'gallery', 'product_type']  # Example fields, adjust as neede
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,4 +30,4 @@ class OrderSerializer(serializers.ModelSerializer):
 class TypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Type
-        fields = ['id', 'name', 'language', 'slug']
+        fields = ['id', 'name', 'language', 'slug', 'icon']

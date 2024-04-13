@@ -28,6 +28,7 @@ class Product(models.Model):
     updated_by = models.ForeignKey(User, related_name='products_updated', on_delete=models.CASCADE, null=True, blank=True)
     type = models.ForeignKey(Type, on_delete=models.CASCADE, default=None)  # Add this field
     status = models.CharField(max_length=20, default='publish')  # Add status field with default value
+    product_type = models.CharField(max_length=20, default='simple')
     
     def __str__(self):
         return self.name
