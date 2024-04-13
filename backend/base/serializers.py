@@ -1,4 +1,4 @@
-from .models import Product, Order
+from .models import Product, Order, Type
 from rest_framework import serializers
 from django.contrib.auth.models import User
 
@@ -20,9 +20,14 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description', 'price', 'quantity', 'discount', 'created_by']
+        fields = ['id', 'name', 'description', 'price', 'quantity', 'status', 'type']  # Example fields, adjust as neede
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'order_number', 'product_name', 'status', 'quantity','shipping_address', 'payment_method', 'total_price', 'product']
+        
+class TypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Type
+        fields = ['id', 'name', 'language', 'slug']
