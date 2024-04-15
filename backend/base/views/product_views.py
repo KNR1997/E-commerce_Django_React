@@ -90,3 +90,24 @@ def get_product_by_slug(request, slug):
         return JsonResponse({'error': 'Product not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+    
+@api_view(['GET'])
+def get_popular_products(request, limit, type_slug=None):
+    try:
+        # Initialize queryset for popular products
+        popular_products = Product.objects.filter(popular_product=True)
+        
+        # Filter by type slug if provided
+        if type_slug:
+            popular_products = popular_products.filter(type__slug=type_slug)
+
+        # Limit the number of results
+        popular_products = popular_products[:limit]
+
+        # Serialize the popular products
+        serializer = ProductSerializer(popular_products, many=True)
+
+        return Response(serializer.data)
+
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
