@@ -2,3 +2,4 @@ Django
 django-cors-headers
 djangorestframework
 djangorestframework-simplejwt
+django-countries==7.3.2

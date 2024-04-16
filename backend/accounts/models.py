@@ -39,6 +39,9 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     role = models.CharField(max_length=255, default='admin')
+    
+    is_employee = models.BooleanField(default=False)
+    is_customer = models.BooleanField(default=False)
 
     groups = models.ManyToManyField(Group, blank=True, related_name='user_groups')
     user_permissions = models.ManyToManyField(
@@ -54,3 +57,20 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+class Employee(models.Model):
+    user = models.OneToOneField(UserAccount, on_delete=models.CASCADE, related_name='employee')
+    emp_code = models.CharField(max_length=255)
+    tel_home = models.CharField(max_length=20)
+    tel_office = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.user.email
+
+class Customer(models.Model):
+    user = models.OneToOneField(UserAccount, on_delete=models.CASCADE, related_name='customer')
+    alt_mobile = models.CharField(max_length=20)
+    loyalty_status = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.user.email
